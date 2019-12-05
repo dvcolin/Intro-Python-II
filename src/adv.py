@@ -38,13 +38,15 @@ room['treasure'].s_to = room['narrow']
 # Declare all items
 item = {
     'sword': Item('Sword', 'A sharp, shiny blade used for stabbing zombies.'),
-    'shotgun': Item('Shotgun', 'A short ranged weapon used for killing zombies.')
+    'shotgun': Item('Shotgun', 'A short ranged weapon used for killing zombies.'),
+    'rock': Item('Sharp Rock', 'The oldest weapon of mankind.'),
 }
 
 
 # Add items to rooms
 room['outside'].items.append(item['sword'])
 room['outside'].items.append(item['shotgun'])
+room['foyer'].items.append(item['rock'])
 
 
 #
@@ -77,12 +79,6 @@ def start_game():
             for item in player.current_room.items:
                 print(f"{item}")
             print("************************************************************")
-        if len(player.items) != 0:
-            print("Current Items:\n")
-            for item in player.items:
-                print(f"{item}")
-            print("************************************************************")
-
         # def get_item_input():
         #     item_input = input(
         #         'Take or drop items? (take ITEM_NAME or drop ITEM_NAME): ').split(' ')
@@ -191,6 +187,9 @@ def start_game():
                             player.current_room.items.append(item[item_name])
                     except KeyError:
                         print("Error: Unable to drop item.")
+            else:
+                print(
+                    'ERROR: Command prompt only accepts direction and item actions. (max: 2 words)')
 
         player_input = get_player_input()
 
