@@ -57,8 +57,9 @@ player = Player('Player1', room['outside'])
 def start_game():
     while True:
         def game_loop():
-            print(f"Current Location: {player.current_room.name}")
-            print(f"{player.current_room.description}")
+            print(
+                f"\n********************\nCurrent Location: {player.current_room.name}")
+            print(f"{player.current_room.description}\n********************\n")
 
             def get_user_input():
                 user_input = input(
@@ -67,17 +68,33 @@ def start_game():
 
             def set_new_location(user_input):
                 if user_input == 'n':
-                    player.current_room = player.current_room.n_to
+                    if player.current_room.n_to is not None:
+                        player.current_room = player.current_room.n_to
+                    else:
+                        print('Choose a different direction')
+                        game_loop()
                 elif user_input == 's':
-                    player.current_room = player.current_room.s_to
+                    if player.current_room.s_to is not None:
+                        player.current_room = player.current_room.s_to
+                    else:
+                        print('Choose a different direction')
+                        game_loop()
                 elif user_input == 'e':
-                    player.current_room = player.current_room.e_to
+                    if player.current_room.e_to is not None:
+                        player.current_room = player.current_room.e_to
+                    else:
+                        print('Choose a different direction')
+                        game_loop()
                 elif user_input == 'w':
-                    player.current_room = player.current_room.w_to
+                    if player.current_room.w_to is not None:
+                        player.current_room = player.current_room.w_to
+                    else:
+                        print('Choose a different direction')
+                        game_loop()
                 elif user_input == 'q':
                     print('Goodbye!')
                     exit
-                game_loop()
+
             set_new_location(get_user_input())
 
         game_loop()
