@@ -1,5 +1,6 @@
 from room import Room
 from player import Player
+from item import Item
 
 # Declare all the rooms
 
@@ -34,6 +35,17 @@ room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
 
+# Declare all items
+items = [
+    Item('Sword', 'A sharp, shiny blade used for stabbing zombies.'),
+    Item('Shotgun', 'A short ranged weapon used for killing zombies.')
+]
+
+
+# Add items to rooms
+room['outside'].items.extend(items[0:2])
+
+
 #
 # Main
 #
@@ -56,35 +68,41 @@ player = Player('Player1', room['outside'])
 def start_game():
     while True:
         print(
-            f"\n********************\nCurrent Location: {player.current_room.name}")
-        print(f"{player.current_room.description}\n********************\n")
+            f"\n*************************************\nCurrent Location: {player.current_room.name}")
+        print(
+            f"{player.current_room.description}\n*************************************")
+        if len(player.current_room.items) is not 0:
+            print("Available Items:\n")
+            for item in player.current_room.items:
+                print(f"{item}")
+            print("************************************************************")
 
-        def get_user_input():
-            user_input = input(
+        def get_direction_input():
+            direction_input = input(
                 'Which direction would you like to go? (n, s, e, w, q to quit): ')
-            return user_input
+            return direction_input
 
         def print_error():
             print('ERROR: Please choose a different direction.')
 
-        def set_new_location(user_input):
-            if user_input == 'n':
+        def set_new_location(direction_input):
+            if direction_input == 'n':
                 if player.current_room.n_to is not None:
                     player.current_room = player.current_room.n_to
                 else:
                     print_error()
 
-            elif user_input == 's':
+            elif direction_input == 's':
                 if player.current_room.s_to is not None:
                     player.current_room = player.current_room.s_to
                 else:
                     print_error()
-            elif user_input == 'e':
+            elif direction_input == 'e':
                 if player.current_room.e_to is not None:
                     player.current_room = player.current_room.e_to
                 else:
                     print_error()
-            elif user_input == 'w':
+            elif direction_input == 'w':
                 if player.current_room.w_to is not None:
                     player.current_room = player.current_room.w_to
                 else:
@@ -92,11 +110,11 @@ def start_game():
             else:
                 print('Please enter a valid character.')
 
-        choice = get_user_input()
-        if choice == 'q':
+        direction_choice = get_direction_input()
+        if direction_choice == 'q':
             print('Goodbye!')
             break
-        set_new_location(choice)
+        set_new_location(direction_choice)
 
 
 start_game()
