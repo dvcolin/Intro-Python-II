@@ -64,33 +64,37 @@ def start_game():
                 'Which direction would you like to go? (n, s, e, w, q to quit): ')
             return user_input
 
+        def print_error():
+            print('ERROR: Please choose a different direction.')
+
         def set_new_location(user_input):
             if user_input == 'n':
                 if player.current_room.n_to is not None:
                     player.current_room = player.current_room.n_to
                 else:
-                    print('Choose a different direction')
+                    print_error()
 
             elif user_input == 's':
                 if player.current_room.s_to is not None:
                     player.current_room = player.current_room.s_to
                 else:
-                    print('Choose a different direction')
+                    print_error()
             elif user_input == 'e':
                 if player.current_room.e_to is not None:
                     player.current_room = player.current_room.e_to
                 else:
-                    print('Choose a different direction')
+                    print_error()
             elif user_input == 'w':
                 if player.current_room.w_to is not None:
                     player.current_room = player.current_room.w_to
                 else:
-                    print('Choose a different direction')
-            elif user_input == 'q':
-                print('Goodbye!')
+                    print_error()
+            else:
+                print('Please enter a valid character.')
 
         choice = get_user_input()
         if choice == 'q':
+            print('Goodbye!')
             break
         set_new_location(choice)
 
