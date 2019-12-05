@@ -36,14 +36,15 @@ room['treasure'].s_to = room['narrow']
 
 
 # Declare all items
-items = [
-    Item('Sword', 'A sharp, shiny blade used for stabbing zombies.'),
-    Item('Shotgun', 'A short ranged weapon used for killing zombies.')
-]
+item = {
+    'sword': Item('Sword', 'A sharp, shiny blade used for stabbing zombies.'),
+    'shotgun': Item('Shotgun', 'A short ranged weapon used for killing zombies.')
+}
 
 
 # Add items to rooms
-room['outside'].items.extend(items[0:2])
+room['outside'].items.append(item['sword'])
+room['outside'].items.append(item['shotgun'])
 
 
 #
@@ -71,11 +72,21 @@ def start_game():
             f"\n*************************************\nCurrent Location: {player.current_room.name}")
         print(
             f"{player.current_room.description}\n*************************************")
-        if len(player.current_room.items) is not 0:
+        if len(player.current_room.items) != 0:
             print("Available Items:\n")
             for item in player.current_room.items:
                 print(f"{item}")
             print("************************************************************")
+        if len(player.items) != 0:
+            print("Current Items:\n")
+            for item in player.items:
+                print(f"{item}")
+            print("************************************************************")
+
+        def get_item_input():
+            item_input = input(
+                'Take or drop items? (take ITEM_NAME or drop ITEM_NAME): ').split(' ')
+            return item_input
 
         def get_direction_input():
             direction_input = input(
@@ -84,6 +95,18 @@ def start_game():
 
         def print_error():
             print('ERROR: Please choose a different direction.')
+
+        def set_player_items(item_input):
+            if len(item_input) == 1 and item_input[0] == '':
+                pass
+            elif len(item_input) == 2 and item_input[0] == 'take':
+                global item
+                action = item_input[0]
+                chosen_item = item_input[1]
+                if item[chosen_item] in player.current_room.items:
+                    player.items.append(item[chosen_item])
+                else:
+                    print("Item entered is not available.")
 
         def set_new_location(direction_input):
             if direction_input == 'n':
@@ -110,10 +133,13 @@ def start_game():
             else:
                 print('Please enter a valid character.')
 
+        item_choice = get_item_input()
         direction_choice = get_direction_input()
+
         if direction_choice == 'q':
             print('Goodbye!')
             break
+        set_player_items(item_choice)
         set_new_location(direction_choice)
 
 
