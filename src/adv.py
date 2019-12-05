@@ -79,56 +79,9 @@ def start_game():
             for item in player.current_room.items:
                 print(f"{item}")
             print("************************************************************")
-        # def get_item_input():
-        #     item_input = input(
-        #         'Take or drop items? (take ITEM_NAME or drop ITEM_NAME): ').split(' ')
-        #     return item_input
-
-        # def get_direction_input():
-        #     direction_input = input(
-        #         'Which direction would you like to go? (n, s, e, w, q to quit): ')
-        #     return direction_input
 
         def direction_error():
             print('ERROR: Please choose a valid direction.')
-
-        # def set_player_items(item_input):
-        #     if len(item_input) == 1 and item_input[0] == '':
-        #         pass
-        #     elif len(item_input) == 2 and item_input[0] == 'take':
-        #         global item
-        #         action = item_input[0]
-        #         chosen_item = item_input[1]
-        #         try:
-        #             if item[chosen_item] in player.current_room.items:
-        #                 player.items.append(item[chosen_item])
-        #         except KeyError:
-        #             print("Item entered is not available.")
-
-        # def set_new_location(direction_input):
-        #     if direction_input == 'n':
-        #         if player.current_room.n_to is not None:
-        #             player.current_room = player.current_room.n_to
-        #         else:
-        #             print_error()
-
-        #     elif direction_input == 's':
-        #         if player.current_room.s_to is not None:
-        #             player.current_room = player.current_room.s_to
-        #         else:
-        #             print_error()
-        #     elif direction_input == 'e':
-        #         if player.current_room.e_to is not None:
-        #             player.current_room = player.current_room.e_to
-        #         else:
-        #             print_error()
-        #     elif direction_input == 'w':
-        #         if player.current_room.w_to is not None:
-        #             player.current_room = player.current_room.w_to
-        #         else:
-        #             print_error()
-        #     else:
-        #         print('Please enter a valid character.')
 
         def get_player_input():
             player_input = input(
