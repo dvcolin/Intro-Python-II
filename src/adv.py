@@ -141,41 +141,56 @@ def start_game():
 
         def apply_player_input(player_input):
             if len(player_input) == 1:
-                direction = player_input[0]
-                if direction == 'n':
+                command = player_input[0]
+                if command == 'n':
                     if player.current_room.n_to is not None:
                         player.current_room = player.current_room.n_to
                     else:
                         direction_error()
-                elif direction == 's':
+                elif command == 's':
                     if player.current_room.s_to is not None:
                         player.current_room = player.current_room.s_to
                     else:
                         direction_error()
-                elif direction == 'e':
+                elif command == 'e':
                     if player.current_room.e_to is not None:
                         player.current_room = player.current_room.e_to
                     else:
                         direction_error()
-                elif direction == 'w':
+                elif command == 'w':
                     if player.current_room.w_to is not None:
                         player.current_room = player.current_room.w_to
                     else:
                         direction_error()
+                elif command == 'i' or command == 'inventory':
+                    if len(player.items) != 0:
+                        print('Inventory:')
+                        for items in player.items:
+                            print(items)
+                    else:
+                        print('You do not have any items in your inventory.')
                 else:
                     print('Please enter a valid character.')
             elif len(player_input) == 2:
                 item_action = player_input[0]
                 item_name = player_input[1]
+                global item
                 if item_action == 'take' or item_action == 'get':
-                    global item
                     try:
                         if item[item_name] in player.current_room.items:
                             player.items.append(item[item_name])
-                            print(item[item_name])
+                            print(item[item_name].on_take())
                             player.current_room.items.remove(item[item_name])
                     except KeyError:
                         print("Error: Unable to pick up item.")
+                elif item_action == 'drop':
+                    try:
+                        if item[item_name] in player.items:
+                            player.items.remove(item[item_name])
+                            print(item[item_name].on_drop())
+                            player.current_room.items.append(item[item_name])
+                    except KeyError:
+                        print("Error: Unable to drop item.")
 
         player_input = get_player_input()
 
