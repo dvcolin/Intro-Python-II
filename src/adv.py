@@ -41,7 +41,6 @@ room['treasure'].s_to = room['narrow']
 # Make a new player object that is currently in the 'outside' room.
 player = Player('Player1', room['outside'])
 
-
 # Write a loop that:
 #
 # * Prints the current room name
@@ -56,48 +55,44 @@ player = Player('Player1', room['outside'])
 
 def start_game():
     while True:
-        def game_loop():
-            print(
-                f"\n********************\nCurrent Location: {player.current_room.name}")
-            print(f"{player.current_room.description}\n********************\n")
+        print(
+            f"\n********************\nCurrent Location: {player.current_room.name}")
+        print(f"{player.current_room.description}\n********************\n")
 
-            def get_user_input():
-                user_input = input(
-                    'Which direction would you like to go? (n, s, e, w, q to quit): ')
-                return user_input
+        def get_user_input():
+            user_input = input(
+                'Which direction would you like to go? (n, s, e, w, q to quit): ')
+            return user_input
 
-            def set_new_location(user_input):
-                if user_input == 'n':
-                    if player.current_room.n_to is not None:
-                        player.current_room = player.current_room.n_to
-                    else:
-                        print('Choose a different direction')
-                        game_loop()
-                elif user_input == 's':
-                    if player.current_room.s_to is not None:
-                        player.current_room = player.current_room.s_to
-                    else:
-                        print('Choose a different direction')
-                        game_loop()
-                elif user_input == 'e':
-                    if player.current_room.e_to is not None:
-                        player.current_room = player.current_room.e_to
-                    else:
-                        print('Choose a different direction')
-                        game_loop()
-                elif user_input == 'w':
-                    if player.current_room.w_to is not None:
-                        player.current_room = player.current_room.w_to
-                    else:
-                        print('Choose a different direction')
-                        game_loop()
-                elif user_input == 'q':
-                    print('Goodbye!')
-                    exit
+        def set_new_location(user_input):
+            if user_input == 'n':
+                if player.current_room.n_to is not None:
+                    player.current_room = player.current_room.n_to
+                else:
+                    print('Choose a different direction')
 
-            set_new_location(get_user_input())
+            elif user_input == 's':
+                if player.current_room.s_to is not None:
+                    player.current_room = player.current_room.s_to
+                else:
+                    print('Choose a different direction')
+            elif user_input == 'e':
+                if player.current_room.e_to is not None:
+                    player.current_room = player.current_room.e_to
+                else:
+                    print('Choose a different direction')
+            elif user_input == 'w':
+                if player.current_room.w_to is not None:
+                    player.current_room = player.current_room.w_to
+                else:
+                    print('Choose a different direction')
+            elif user_input == 'q':
+                print('Goodbye!')
 
-        game_loop()
+        choice = get_user_input()
+        if choice == 'q':
+            break
+        set_new_location(choice)
 
 
 start_game()
