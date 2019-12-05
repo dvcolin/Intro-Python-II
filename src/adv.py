@@ -83,64 +83,106 @@ def start_game():
                 print(f"{item}")
             print("************************************************************")
 
-        def get_item_input():
-            item_input = input(
-                'Take or drop items? (take ITEM_NAME or drop ITEM_NAME): ').split(' ')
-            return item_input
+        # def get_item_input():
+        #     item_input = input(
+        #         'Take or drop items? (take ITEM_NAME or drop ITEM_NAME): ').split(' ')
+        #     return item_input
 
-        def get_direction_input():
-            direction_input = input(
-                'Which direction would you like to go? (n, s, e, w, q to quit): ')
-            return direction_input
+        # def get_direction_input():
+        #     direction_input = input(
+        #         'Which direction would you like to go? (n, s, e, w, q to quit): ')
+        #     return direction_input
 
-        def print_error():
-            print('ERROR: Please choose a different direction.')
+        def direction_error():
+            print('ERROR: Please choose a valid direction.')
 
-        def set_player_items(item_input):
-            if len(item_input) == 1 and item_input[0] == '':
-                pass
-            elif len(item_input) == 2 and item_input[0] == 'take':
-                global item
-                action = item_input[0]
-                chosen_item = item_input[1]
-                if item[chosen_item] in player.current_room.items:
-                    player.items.append(item[chosen_item])
+        # def set_player_items(item_input):
+        #     if len(item_input) == 1 and item_input[0] == '':
+        #         pass
+        #     elif len(item_input) == 2 and item_input[0] == 'take':
+        #         global item
+        #         action = item_input[0]
+        #         chosen_item = item_input[1]
+        #         try:
+        #             if item[chosen_item] in player.current_room.items:
+        #                 player.items.append(item[chosen_item])
+        #         except KeyError:
+        #             print("Item entered is not available.")
+
+        # def set_new_location(direction_input):
+        #     if direction_input == 'n':
+        #         if player.current_room.n_to is not None:
+        #             player.current_room = player.current_room.n_to
+        #         else:
+        #             print_error()
+
+        #     elif direction_input == 's':
+        #         if player.current_room.s_to is not None:
+        #             player.current_room = player.current_room.s_to
+        #         else:
+        #             print_error()
+        #     elif direction_input == 'e':
+        #         if player.current_room.e_to is not None:
+        #             player.current_room = player.current_room.e_to
+        #         else:
+        #             print_error()
+        #     elif direction_input == 'w':
+        #         if player.current_room.w_to is not None:
+        #             player.current_room = player.current_room.w_to
+        #         else:
+        #             print_error()
+        #     else:
+        #         print('Please enter a valid character.')
+
+        def get_player_input():
+            player_input = input(
+                'Enter n, s, e, or w to move. Enter q to quit.\nTo take or drop items, enter "take/get ITEM_NAME" or "drop ITEM_NAME"\nPlease enter a command: ').split(' ')
+            return player_input
+
+        def apply_player_input(player_input):
+            if len(player_input) == 1:
+                direction = player_input[0]
+                if direction == 'n':
+                    if player.current_room.n_to is not None:
+                        player.current_room = player.current_room.n_to
+                    else:
+                        direction_error()
+                elif direction == 's':
+                    if player.current_room.s_to is not None:
+                        player.current_room = player.current_room.s_to
+                    else:
+                        direction_error()
+                elif direction == 'e':
+                    if player.current_room.e_to is not None:
+                        player.current_room = player.current_room.e_to
+                    else:
+                        direction_error()
+                elif direction == 'w':
+                    if player.current_room.w_to is not None:
+                        player.current_room = player.current_room.w_to
+                    else:
+                        direction_error()
                 else:
-                    print("Item entered is not available.")
+                    print('Please enter a valid character.')
+            elif len(player_input) == 2:
+                item_action = player_input[0]
+                item_name = player_input[1]
+                if item_action == 'take' or item_action == 'get':
+                    global item
+                    try:
+                        if item[item_name] in player.current_room.items:
+                            player.items.append(item[item_name])
+                            print(item[item_name])
+                            player.current_room.items.remove(item[item_name])
+                    except KeyError:
+                        print("Error: Unable to pick up item.")
 
-        def set_new_location(direction_input):
-            if direction_input == 'n':
-                if player.current_room.n_to is not None:
-                    player.current_room = player.current_room.n_to
-                else:
-                    print_error()
+        player_input = get_player_input()
 
-            elif direction_input == 's':
-                if player.current_room.s_to is not None:
-                    player.current_room = player.current_room.s_to
-                else:
-                    print_error()
-            elif direction_input == 'e':
-                if player.current_room.e_to is not None:
-                    player.current_room = player.current_room.e_to
-                else:
-                    print_error()
-            elif direction_input == 'w':
-                if player.current_room.w_to is not None:
-                    player.current_room = player.current_room.w_to
-                else:
-                    print_error()
-            else:
-                print('Please enter a valid character.')
-
-        item_choice = get_item_input()
-        direction_choice = get_direction_input()
-
-        if direction_choice == 'q':
+        if player_input[0] == 'q':
             print('Goodbye!')
             break
-        set_player_items(item_choice)
-        set_new_location(direction_choice)
+        apply_player_input(player_input)
 
 
 start_game()
