@@ -3,8 +3,6 @@
 
 
 class Player:
-    def __init__(self, current_room):
+    def __init__(self, current_room, items=[]):
         self.current_room = current_room
-
-    def __str__(self):
-        return f"************************\nCurrent Room: {self.current_room.name}\n*************\n{self.current_room.description}\n"
+        self.items = items
