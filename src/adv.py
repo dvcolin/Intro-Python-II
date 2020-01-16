@@ -76,7 +76,7 @@ while True:
 
     def take_item(item_name):
         for item in player.current_room.items:
-            if item.name == item_name:
+            if item.name == item_name or item.name.lower() == item_name:
                 player.items.append(item)
                 player.current_room.items.remove(item)
                 print(item.on_take())
@@ -85,7 +85,7 @@ while True:
 
     def drop_item(item_name):
         for item in player.items:
-            if item.name == item_name:
+            if item.name == item_name or item.name.lower() == item_name:
                 player.items.remove(item)
                 player.current_room.items.append(item)
                 print(item.on_drop())
