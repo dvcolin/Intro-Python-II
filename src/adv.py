@@ -105,34 +105,37 @@ while True:
         'Please enter a command. (move: n, s, e, w) (take ITEM_NAME, drop ITEM_NAME) (inventory: "i" or "inventory") (quit: q): ').split(' ')
 
     if len(player_input) == 1 and player_input[0] != '':
-        if player_input[0] == 'n':
+        command = player_input[0]
+        if command == 'n':
             if player.current_room.n_to != None:
                 player.current_room = player.current_room.n_to
             else:
                 direction_error()
-        elif player_input[0] == 's':
+        elif command == 's':
             if player.current_room.s_to != None:
                 player.current_room = player.current_room.s_to
             else:
                 direction_error()
-        elif player_input[0] == 'e':
+        elif command == 'e':
             if player.current_room.e_to != None:
                 player.current_room = player.current_room.e_to
             else:
                 direction_error()
-        elif player_input[0] == 'w':
+        elif command == 'w':
             if player.current_room.w_to != None:
                 player.current_room = player.current_room.w_to
             else:
                 direction_error()
-        elif player_input[0] == 'i' or player_input[0] == 'inventory':
+        elif command == 'i' or command == 'inventory':
             print_player_items()
-        elif player_input[0] == 'q':
+        elif command == 'q':
             break
     elif len(player_input) == 2 and player_input[0] != '' and player_input[1] != '':
-        if player_input[0] == 'get' or player_input[0] == 'take':
-            take_item(player_input[1])
-        elif player_input[0] == 'drop':
-            drop_item(player_input[1])
+        action = player_input[0]
+        item = player_input[1]
+        if action == 'get' or action == 'take':
+            take_item(item)
+        elif action == 'drop':
+            drop_item(item)
     else:
         print('Please enter a valid command.')
