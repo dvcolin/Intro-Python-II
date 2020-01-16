@@ -47,7 +47,7 @@ room['foyer'].items = [
 #
 
 # Make a new player object that is currently in the 'outside' room.
-player = Player(room['outside'])
+player = Player('Philip', room['outside'])
 
 # Write a loop that:
 #
