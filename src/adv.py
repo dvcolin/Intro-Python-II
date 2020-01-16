@@ -38,7 +38,10 @@ room['treasure'].s_to = room['narrow']
 
 # Add items to rooms
 room['outside'].items = [
-    Item('Shotgun', 'A short-ranged weapon used for killing mortal beings.'), Item('Rock', 'A natural weapon.')]
+    Item('Shotgun', 'A short-ranged weapon used for killing mortal beings. Gotta good spread.'), Item('Rock', 'A natural weapon.')]
+
+room['foyer'].items = [
+    Item('Candle', 'A common light source of the 1800s.'), Item('FatMan', 'Launches mini nukes all day, every day.')]
 #
 # Main
 #
@@ -71,21 +74,23 @@ while True:
         for item in player.items:
             print(item)
 
-    def add_item(item_name):
+    def take_item(item_name):
         for item in player.current_room.items:
             if item.name == item_name:
                 player.items.append(item)
                 player.current_room.items.remove(item)
+                print(item.on_take())
                 return
-        print('Item not available.')
+        print('Item not in current room.')
 
     def drop_item(item_name):
         for item in player.items:
             if item.name == item_name:
                 player.items.remove(item)
                 player.current_room.items.append(item)
+                print(item.on_drop())
                 return
-        print('Item not available.')
+        print('Item not in inventory.')
 
     print(
         f"****************************\nCurrent Room: {player.current_room.name}\n{player.current_room.description}\n****************************\n")
@@ -97,34 +102,39 @@ while True:
         print_player_items()
 
     player_input = input(
-        'Please enter a command. (move: n, s, e, w) (take ITEM_NAME, drop ITEM_NAME) (quit: q): ').split(' ')
+        'Please enter a command. (move: n, s, e, w) (take ITEM_NAME, drop ITEM_NAME) (inventory: "i" or "inventory") (quit: q): ').split(' ')
 
     if len(player_input) == 1 and player_input[0] != '':
         if player_input[0] == 'n':
-            try:
+            if player.current_room.n_to != None:
                 player.current_room = player.current_room.n_to
-            except:
+            else:
                 direction_error()
         elif player_input[0] == 's':
-            try:
+            if player.current_room.s_to != None:
                 player.current_room = player.current_room.s_to
-            except:
+            else:
                 direction_error()
         elif player_input[0] == 'e':
-            try:
+            if player.current_room.e_to != None:
                 player.current_room = player.current_room.e_to
-            except:
+            else:
                 direction_error()
         elif player_input[0] == 'w':
-            try:
+            if player.current_room.w_to != None:
                 player.current_room = player.current_room.w_to
-            except:
+            else:
                 direction_error()
+        elif player_input[0] == 'i' or player_input[0] == 'inventory':
+            if len(player.items) != 0:
+                print_player_items()
+            else:
+                print('You have no items in your inventory.')
         elif player_input[0] == 'q':
             break
     elif len(player_input) == 2 and player_input[0] != '' and player_input[1] != '':
-        if player_input[0] == 'take':
-            add_item(player_input[1])
+        if player_input[0] == 'get' or player_input[0] == 'take':
+            take_item(player_input[1])
         elif player_input[0] == 'drop':
             drop_item(player_input[1])
     else:
