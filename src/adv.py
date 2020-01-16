@@ -70,9 +70,12 @@ while True:
             print(item)
 
     def print_player_items():
-        print('Current Items:')
-        for item in player.items:
-            print(item)
+        if len(player.items) != 0:
+            print('Current Items:')
+            for item in player.items:
+                print(item)
+        else:
+            print('You have no items in your inventory.')
 
     def take_item(item_name):
         for item in player.current_room.items:
@@ -97,9 +100,6 @@ while True:
 
     if len(player.current_room.items) != 0:
         print_room_items()
-
-    if len(player.items) != 0:
-        print_player_items()
 
     player_input = input(
         'Please enter a command. (move: n, s, e, w) (take ITEM_NAME, drop ITEM_NAME) (inventory: "i" or "inventory") (quit: q): ').split(' ')
@@ -126,10 +126,7 @@ while True:
             else:
                 direction_error()
         elif player_input[0] == 'i' or player_input[0] == 'inventory':
-            if len(player.items) != 0:
-                print_player_items()
-            else:
-                print('You have no items in your inventory.')
+            print_player_items()
         elif player_input[0] == 'q':
             break
     elif len(player_input) == 2 and player_input[0] != '' and player_input[1] != '':
